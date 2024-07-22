@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "528433836492",
+    "project_id": "beuro-veritass",
+    "storage_bucket": "beuro-veritass.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528433836492:android:d8404b50d32d9e452f6d69",
+        "android_client_info": {
+          "package_name": "com.example.beuroveritass"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRqWbI8wniYg78Hh23YrCPH4chAg2ViCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
