@@ -115,15 +115,11 @@ public class LoginActivity extends AppCompatActivity {
             signInWithGoogle();
         });
 
-        binding.ivFacebookLogo.setOnClickListener(view -> {
-            signInWithFacebook();
-        });
-
         binding.tvSignUp.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         });
 
-        binding.tvForgotPassword.setOnClickListener(view -> {
+        binding.tvForgetPassword.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
         });
 

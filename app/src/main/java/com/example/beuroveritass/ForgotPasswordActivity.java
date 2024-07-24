@@ -75,14 +75,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             });
         }
 
-        binding.forgerPasswordBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
     }
+
 
     private void loading(boolean isLoading) {
         if (isLoading == true) {

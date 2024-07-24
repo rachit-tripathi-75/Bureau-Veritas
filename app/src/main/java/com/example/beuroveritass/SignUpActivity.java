@@ -57,7 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser user = auth.getCurrentUser();
-        if(user != null) {
+        if (user != null) {
             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
             finish();
         }
@@ -67,13 +67,13 @@ public class SignUpActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d("TAG", "firebaseAuthWithGoogle" + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
-            }catch (ApiException e) {
+            } catch (ApiException e) {
                 Log.w("TAG", "Google sign in failed", e);
             }
         }
@@ -85,12 +85,11 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             Log.d("TAG", "signInWithCredential:success");
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getApplicationContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -102,10 +101,6 @@ public class SignUpActivity extends AppCompatActivity {
             signUp();
         });
 
-        binding.ivBack.setOnClickListener(view -> {
-            onBackPressed();
-        });
-
         binding.tvLogin.setOnClickListener(view -> {
             startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
             finish();
@@ -115,14 +110,8 @@ public class SignUpActivity extends AppCompatActivity {
             signInWithGoogle();
         });
 
-        binding.ivFacebookLogo.setOnClickListener(view -> {
-            signInWithFacebook();
-        });
     }
 
-    private void signInWithFacebook() {
-
-    }
 
     private void signInWithGoogle() {
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -140,7 +129,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void signUp() {
 
-        if(isValidSignUpDetails()) {
+        if (isValidSignUpDetails()) {
 
             loading(true);
 
@@ -148,12 +137,11 @@ public class SignUpActivity extends AppCompatActivity {
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()) {
+                            if (task.isSuccessful()) {
                                 loading(false);
                                 startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                                 finish();
-                            }
-                            else {
+                            } else {
                                 loading(false);
                                 Exception e = task.getException();
                                 Toast.makeText(SignUpActivity.this, "Authentication failed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -165,40 +153,33 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void loading(boolean isLoading) {
-        if(isLoading == true) {
+        if (isLoading == true) {
             binding.progressBar.setVisibility(View.VISIBLE);
             binding.btnSignUp.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
             binding.btnSignUp.setVisibility(View.VISIBLE);
         }
     }
 
     private boolean isValidSignUpDetails() {
-        if(binding.etEmail.getText().toString().trim().isEmpty()) {
+        if (binding.etEmail.getText().toString().trim().isEmpty()) {
             binding.etEmail.setError("Enter your email");
             return false;
-        }
-        else if(!Pattern.matches(emailPattern, binding.etEmail.getText().toString())) {
+        } else if (!Pattern.matches(emailPattern, binding.etEmail.getText().toString())) {
             binding.etEmail.setError("Enter valid email");
             return false;
-        }
-        else if(binding.etPassword.getText().toString().trim().isEmpty()) {
+        } else if (binding.etPassword.getText().toString().trim().isEmpty()) {
             binding.etPassword.setError("Enter your password");
             return false;
-        }
-        else if(binding.etConfirmPassword.getText().toString().trim().isEmpty()) {
+        } else if (binding.etConfirmPassword.getText().toString().trim().isEmpty()) {
             binding.etConfirmPassword.setError("Enter your confirm password");
             return false;
-        }
-        else if(binding.etPassword.getText().toString().length() < 6) {
+        } else if (binding.etPassword.getText().toString().length() < 6) {
             binding.etPassword.setError("Password length too small. Min. 6 required");
-        }
-        else if(binding.etConfirmPassword.getText().toString().length() < 6) {
+        } else if (binding.etConfirmPassword.getText().toString().length() < 6) {
             binding.etPassword.setError("Password length too small. Min. 6 required");
-        }
-        else if(!binding.etPassword.getText().toString().trim().equals(binding.etConfirmPassword.getText().toString().trim())) {
+        } else if (!binding.etPassword.getText().toString().trim().equals(binding.etConfirmPassword.getText().toString().trim())) {
             binding.etPassword.setError("Password doesn't matches");
             binding.etConfirmPassword.setError("Password doesn't matches");
             return false;

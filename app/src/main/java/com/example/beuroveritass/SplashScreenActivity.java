@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SplashScreenActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private ActivitySplashScreenBinding binding;
-    final int SPLASH_SCREEN_TIME_OUT = 3000;
+    final int SPLASH_SCREEN_TIME_OUT = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
