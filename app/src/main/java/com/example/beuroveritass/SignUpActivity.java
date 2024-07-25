@@ -28,11 +28,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.io.IOException;
 import java.util.regex.Pattern;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 
 public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
-    private String emailPattern = "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*";
+    private final String emailPattern = "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*";
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     GoogleSignInOptions gso;
     GoogleSignInClient googleSignInClient;
@@ -98,7 +106,12 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void listeners() {
         binding.btnSignUp.setOnClickListener(view -> {
-            signUp();
+            try {
+                signUp();
+            }
+            catch (Exception e) {
+                Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            }
         });
 
         binding.tvLogin.setOnClickListener(view -> {
@@ -127,27 +140,44 @@ public class SignUpActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void signUp() {
+    private void signUp() throws IOException {
 
         if (isValidSignUpDetails()) {
 
             loading(true);
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("application/json");
+            RequestBody body = RequestBody.create(mediaType, " {\r\n    \"email\": \"rachit111@gmail.com\",\r\n    \"password\": \"111111\"\r\n}     ");
+            Request request = new Request.Builder()
+                    .url("https://bureauveritas.deificindia.com/api/register")
+                    .method("POST", body)
+                    .addHeader("Content-Type", "application/json")
+                    .build();
+            Response response = client.newCall(request).execute();
+            int statusCode = response.code();
 
-            auth.createUserWithEmailAndPassword(binding.etEmail.getText().toString().trim(), binding.etPassword.getText().toString().trim())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                loading(false);
-                                startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                                finish();
-                            } else {
-                                loading(false);
-                                Exception e = task.getException();
-                                Toast.makeText(SignUpActivity.this, "Authentication failed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            if(statusCode == 200) {
+                startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+            }
+            else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+//            auth.createUserWithEmailAndPassword(binding.etEmail.getText().toString().trim(), binding.etPassword.getText().toString().trim())
+//                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            if (task.isSuccessful()) {
+//                                loading(false);
+//                                startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+//                                finish();
+//                            } else {
+//                                loading(false);
+//                                Exception e = task.getException();
+//                                Toast.makeText(SignUpActivity.this, "Authentication failed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
 
         }
     }

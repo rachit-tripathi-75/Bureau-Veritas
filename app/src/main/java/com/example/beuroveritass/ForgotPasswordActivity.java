@@ -44,7 +44,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         if (!Pattern.matches(emailPattern, binding.etForgetEmail.getText().toString()) && !binding.etForgetEmail.getText().toString().isEmpty()) {
             binding.etForgetEmail.setError("Enter valid email");
         } else {
-            binding.btnContinue.setOnClickListener(new View.OnClickListener() {
+            binding.btnSendOTP.setOnClickListener(new View.OnClickListener() {
 
 
                 @Override
@@ -81,10 +81,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private void loading(boolean isLoading) {
         if (isLoading == true) {
             binding.progressBar.setVisibility(View.VISIBLE);
-            binding.btnContinue.setVisibility(View.INVISIBLE);
+            binding.btnSendOTP.setVisibility(View.INVISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
-            binding.btnContinue.setVisibility(View.VISIBLE);
+            binding.btnSendOTP.setVisibility(View.VISIBLE);
         }
     }
 }

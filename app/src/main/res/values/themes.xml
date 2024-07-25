@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.BeuroVeritass" parent="Base.Theme.BeuroVeritass" />
+
+    <style name="roundSquare">
+        <item name="cornerSize">20%</item>
+    </style>
 </resources>
